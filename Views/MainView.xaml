@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MiCommand.Views"
         mc:Ignorable="d"
-        Title="MiCommand" Height="450" Width="800" 
+        Title="MiCommand" Height="450" Width="800"
         Background="#2b2d42" Foreground="#edf2f4" 
         FontFamily="Calibri" FontSize="14">
     <Grid>
@@ -39,6 +39,14 @@
 
             <local:CommonView Grid.Row="1"/>
             <local:RecentView Grid.Row="2"/>
+        </Grid>
+
+        <Grid Grid.Column="2" Grid.Row="2">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
+                <TextBlock Text="{Binding LanguageText}" TextAlignment="Right" Width="75" Margin="5"/>
+                <RadioButton Content="ENG" Command="{Binding LanguageCommand}" IsChecked="{Binding EnglishChecked}" Foreground="#edf2f4" VerticalContentAlignment="Bottom" Margin="5,5,0,5"/>
+                <RadioButton Content="SWE" Command="{Binding LanguageCommand}" IsChecked="{Binding SwedishChecked}" Foreground="#edf2f4" VerticalContentAlignment="Bottom" Margin="5,5,0,5"/>
+            </StackPanel>
         </Grid>
     </Grid>
 </Window>

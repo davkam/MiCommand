@@ -26,8 +26,8 @@
                 
                 <TextBlock Text=">" Grid.Column="0" FontSize="16" VerticalAlignment="Center" Margin="0,0,2,0"/>
                 <TextBox x:Name="inputTextBox" Text="{Binding InputText, Mode=TwoWay}" Grid.Column="1" PreviewKeyDown="OnPreviewKeyDown" Style="{DynamicResource textBoxStyle}" FontSize="16" VerticalContentAlignment="Center"/>
-                <Button Content="ENTER" Grid.Column="2" Command="{Binding EnterCommand}" Style="{StaticResource inputButtonStyle}"/>
-                <Button Content="CLEAR" Grid.Column="3" Command="{Binding ClearCommand}" Style="{StaticResource inputButtonStyle}"/>
+                <Button Content="{Binding EnterButton}" Grid.Column="2" Command="{Binding EnterCommand}" Style="{StaticResource inputButtonStyle}"/>
+                <Button Content="{Binding ClearButton}" Grid.Column="3" Command="{Binding ClearCommand}" Style="{StaticResource inputButtonStyle}"/>
             </Grid>
         </Border>
     </Grid>

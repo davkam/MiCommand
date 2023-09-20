@@ -12,11 +12,7 @@ namespace MiCommand.Commands
             if (selectedTab != null)
             {
                 string inputCommand = InputViewModel.Instance.InputText;
-                string outputCommand = selectedTab.Command.EnterCommand(inputCommand);
-
-                selectedTab.Content.AppendText(inputCommand + "\n");
-                selectedTab.Content.AppendText(outputCommand);
-                selectedTab.Content.ScrollToEnd();
+                selectedTab.Command.RunCommand(inputCommand);
             }
             InputViewModel.Instance.InputText = "";
         }

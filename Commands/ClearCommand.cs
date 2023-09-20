@@ -11,10 +11,10 @@ namespace MiCommand.Commands
 
             if (selectedTab != null)
             {
-                string startOutput = selectedTab.Command.GetStartOutput();
-
-                selectedTab.Content.Text = "";
-                selectedTab.Content.AppendText(startOutput);
+                // TBD! Needs a more efficient solution.
+                selectedTab.Content.Text = string.Empty;
+                selectedTab.Command.EndProcess();
+                selectedTab.Command.StartProcess();
             }
             InputViewModel.Instance.InputText = "";
         }

@@ -54,8 +54,8 @@
                         </Grid.RowDefinitions>
 
                         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="2,0,0,0">
-                            <Button Content="+" Command="{Binding AddTabCommand}" Style="{StaticResource tabButtonStyle}" Margin="0,-2,2,0" ToolTip="Add Tab"/>
-                            <Button Content="-" Command="{Binding RemoveTabCommand}" Style="{StaticResource tabButtonStyle}" Margin="0,-2,2,0" ToolTip="Remove Tab"/>
+                            <Button Content="+" Command="{Binding AddTabCommand}" Style="{StaticResource tabButtonStyle}" Margin="0,-2,2,0" ToolTip="{Binding AddTabTooltip}"/>
+                            <Button Content="-" Command="{Binding RemoveTabCommand}" Style="{StaticResource tabButtonStyle}" Margin="0,-2,2,0" ToolTip="{Binding RemoveTabTooltip}"/>
                             <TabPanel IsItemsHost="True"/>
                         </StackPanel>
 

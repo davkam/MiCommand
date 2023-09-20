@@ -15,6 +15,19 @@ namespace MiCommand.ViewModels
         private List<string> _recentCommands;
 
         #region Properties
+        private string _recentCommmandsText;
+        public string RecentCommandsText 
+        {
+            get { return _recentCommmandsText; } 
+            set
+            {
+                if (value != _recentCommmandsText)
+                {
+                    _recentCommmandsText = value;
+                    OnPropertyChanged(nameof(RecentCommandsText));
+                }
+            }
+        }
         private ItemsControl _firstItemsControl;
         public ItemsControl FirstItemsControl
         {
@@ -28,6 +41,7 @@ namespace MiCommand.ViewModels
                 }
             }
         }
+
         private ItemsControl _secondItemsControl;
         public ItemsControl SecondItemsControl
         {
@@ -43,6 +57,7 @@ namespace MiCommand.ViewModels
         }
         public ObservableCollection<string> FirstRecentCommands { get; private set; }
         public ObservableCollection<string> SecondRecentCommands { get; private set; }
+
         #endregion
 
         public ICommand RecentCommand { get; private set; }
@@ -54,6 +69,8 @@ namespace MiCommand.ViewModels
             Instance = this;
 
             _recentCommands = new List<string>();
+
+            RecentCommandsText = "RECENT COMMANDS";
 
             FirstRecentCommands = new ObservableCollection<string>();
             SecondRecentCommands = new ObservableCollection<string>();
@@ -80,7 +97,6 @@ namespace MiCommand.ViewModels
                 SortRecentLists();
             }
         }
-
         public void SortRecentLists()
         {
             FirstRecentCommands.Clear();
@@ -101,6 +117,14 @@ namespace MiCommand.ViewModels
                     return;
                 }
             }
+        }
+        public void SetEnglishLanguage()
+        {
+            RecentCommandsText = "RECENT COMMANDS";
+        }
+        public void SetSwedishLanguage()
+        {
+            RecentCommandsText = "SENASTE KOMMANDON";
         }
         #endregion
 

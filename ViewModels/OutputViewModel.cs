@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Input;
 using MiCommand.Commands;
 using MiCommand.Models;
@@ -24,6 +25,7 @@ namespace MiCommand.ViewModels
                 }
             }
         }
+
         private Tab _selectedTab;
         public Tab SelectedTab
         {
@@ -34,6 +36,33 @@ namespace MiCommand.ViewModels
                 {
                     _selectedTab = value;
                     OnPropertyChanged($"{nameof(SelectedTab)}");
+                }
+            }
+        }
+
+        private string _addTabTooltip;
+        public string AddTabTooltip 
+        { 
+            get { return _addTabTooltip; }
+            set
+            {
+                if (value != _addTabTooltip)
+                {
+                    _addTabTooltip = value;
+                    OnPropertyChanged(nameof(AddTabTooltip));
+                }
+            }
+        }
+        private string _removeTabTooltip;
+        public string RemoveTabTooltip
+        {
+            get { return _removeTabTooltip; }
+            set
+            {
+                if (value != _removeTabTooltip)
+                {
+                    _removeTabTooltip = value;
+                    OnPropertyChanged(nameof(RemoveTabTooltip));
                 }
             }
         }
@@ -52,6 +81,9 @@ namespace MiCommand.ViewModels
 
             TabItems = new ObservableCollection<Tab>();
 
+            AddTabTooltip = "Add tab";
+            RemoveTabTooltip = "Remove tab";
+
             AddTabCommand = new AddTabCommand();
             RemoveTabCommand = new RemoveTabCommand();
 
@@ -66,8 +98,33 @@ namespace MiCommand.ViewModels
         }
         public void RemoveTab()
         {
-            SelectedTab.Command.Process.Close();
-            TabItems.Remove(SelectedTab);
+            if (SelectedTab != null)
+            {
+                SelectedTab.Command.EndProcess();
+                TabItems.Remove(SelectedTab);
+            }
+        }
+        public void SetEnglishLanguage()
+        {
+            AddTabTooltip = "Add tab";
+            RemoveTabTooltip = "Remove tab";
+
+            foreach (Tab tab in TabItems)
+            {
+                char tabIndex = tab.Header.Last();
+                tab.Header = "Tab " + tabIndex;
+            }
+        }
+        public void SetSwedishLanguage()
+        {
+            AddTabTooltip = "Lägg till flik";
+            RemoveTabTooltip = "Ta bort flik";
+
+            foreach (Tab tab in TabItems)
+            {
+                char tabIndex = tab.Header.Last();
+                tab.Header = "Flik " + tabIndex;
+            }
         }
         #endregion
 

@@ -19,7 +19,7 @@ namespace MiCommand.Views
         {
             foreach (Tab tab in OutputViewModel.Instance.TabItems)
             {
-                tab.Command.Process.Close();
+                tab.Command.EndProcess();
             }
         }
     }

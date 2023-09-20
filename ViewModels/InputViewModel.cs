@@ -10,6 +10,32 @@ namespace MiCommand.ViewModels
         public static InputViewModel Instance { get; private set; }
 
         #region Properties
+        private string _enterButton;
+        public string EnterButton
+        {
+            get { return _enterButton; }
+            set
+            {
+                if (value != _enterButton)
+                {
+                    _enterButton = value;
+                    OnPropertyChanged(nameof(EnterButton));
+                }
+            }
+        }
+        private string _clearButton;
+        public string ClearButton
+        {
+            get { return _clearButton; }
+            set
+            {
+                if (value != _clearButton)
+                {
+                    _clearButton = value;
+                    OnPropertyChanged(nameof(ClearButton));
+                }
+            }
+        }
         private string _inputText;
         public string InputText
         {
@@ -37,6 +63,9 @@ namespace MiCommand.ViewModels
         {
             Instance = this;
 
+            EnterButton = "ENTER";
+            ClearButton = "CLEAR";
+
             EnterCommand = new EnterCommand();
             ClearCommand = new ClearCommand();
         }
@@ -57,6 +86,16 @@ namespace MiCommand.ViewModels
             InputWindow.Text = "";
             InputWindow.Focus();
             InputWindow.AppendText(nextInput);
+        }
+        public void SetEnglishLanguage()
+        {
+            EnterButton = "ENTER";
+            ClearButton = "CLEAR";
+        }
+        public void SetSwedishLanguage()
+        {
+            EnterButton = "ANGE";
+            ClearButton = "RENSA";
         }
         #endregion
 

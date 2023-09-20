@@ -1,69 +1,96 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
+using System.Threading;
+using System.Windows;
 using MiCommand.ViewModels;
 
 namespace MiCommand.Models
 {
     public class Command
     {
+        private static int initialOutput = 0;
+
+        private bool _validInputCommand;
         private int _recentCommandIndex;
 
-        public Process Process { get; set; }
-        public List<string> RecentCommands { get; set; }
+        public Process CommandProcess { get; private set; }
+        public List<string> RecentInputs { get; private set; }
+        public List<string> RecentOutputs { get; private set; }
 
         public Command()
         {
-            RecentCommands = new List<string>();
+            _validInputCommand = false;
+            _recentCommandIndex = 0;
+
+            RecentInputs = new List<string>();
+            RecentOutputs = new List<string>();
 
             StartProcess();
         }
 
         #region Public Methods
-        public string GetStartOutput()
+        public void StartProcess()
         {
-            Process.Start();
-            Process.StandardInput.Flush();
-            Process.StandardInput.Close();
-            Process.WaitForExit();
+            RecentOutputs.Clear();
 
-            return Process.StandardOutput.ReadToEnd();
+            CommandProcess = new Process();
+
+            CommandProcess.StartInfo = new ProcessStartInfo()
+            {
+                FileName = "cmd.exe",
+                RedirectStandardInput = true,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                CreateNoWindow = true,
+                UseShellExecute = false
+            };
+
+            CommandProcess.OutputDataReceived += OnOutputDataReceived;
+            CommandProcess.ErrorDataReceived += OnErrorDataReceived;
+
+            CommandProcess.Start();
+            CommandProcess.BeginOutputReadLine();
+            CommandProcess.BeginErrorReadLine();
+
+            CommandProcess.StandardInput.WriteLine("");
+            CommandProcess.StandardInput.Flush();
         }
-        public string EnterCommand(string input)
+        public void EndProcess()
         {
-            Process.Start();
-            Process.StandardInput.WriteLine($"{input}");
-            Process.StandardInput.Flush();
-            Process.StandardInput.Close();
-            Process.WaitForExit();
-
-            RecentCommands.Add(input);
-            _recentCommandIndex = RecentCommands.Count;
-
-            string output = "";
-            string standardError = "";
-            if ((standardError = Process.StandardError.ReadToEnd()) != "")
+            if (CommandProcess != null && !CommandProcess.HasExited)
             {
-                output = "ERROR: " + standardError + "\n";
-                output += GetCurrentDirectory();
+                CommandProcess.OutputDataReceived -= OnOutputDataReceived;
+                CommandProcess.ErrorDataReceived -= OnErrorDataReceived;
+
+                CommandProcess.CancelOutputRead();
+                CommandProcess.CancelErrorRead();
+
+                CommandProcess.StandardInput.WriteLine("exit");
+                CommandProcess.StandardInput.Flush();
+                CommandProcess.StandardInput.Close();
+                CommandProcess.WaitForExit();
+                CommandProcess.Close();
             }
-            else
+        }
+        public void RunCommand(string inputCommand)
+        {
+            CommandProcess.StandardInput.WriteLine(inputCommand);
+            CommandProcess.StandardInput.Flush();
+
+            RecentInputs.Add(inputCommand);
+
+            OutputViewModel.Instance.SelectedTab.Content.AppendText("\n");
+
+            Thread.Sleep(100);
+            if (_validInputCommand)
             {
-                int lineNumber = 0;
-                string standardOutput = "";
-                while ((standardOutput = Process.StandardOutput.ReadLine()) != null)
+                if (inputCommand.Trim() != "")
                 {
-                    if (lineNumber < 4) lineNumber++;
-                    else
-                    {
-                        output += standardOutput + "\n";
-                    }
-                }
+                    RecentViewModel.Instance.AddRecentCommand(inputCommand.Trim());
 
-                if (input.Trim() != "") RecentViewModel.Instance.AddRecentCommand(input);
+                    _validInputCommand = false;
+                }
             }
-            return output.TrimEnd('\n');
         }
         public string GetPreviousCommand()
         {
@@ -73,14 +100,14 @@ namespace MiCommand.Models
             }
             else
             {
-                _recentCommandIndex = RecentCommands.Count - 1;
+                _recentCommandIndex = RecentInputs.Count - 1;
             }
 
-            return RecentCommands[_recentCommandIndex];
+            return RecentInputs[_recentCommandIndex];
         }
         public string GetNextCommand()
         {
-            if (_recentCommandIndex < RecentCommands.Count - 1)
+            if (_recentCommandIndex < RecentInputs.Count - 1)
             {
                 _recentCommandIndex++;
             }
@@ -89,37 +116,40 @@ namespace MiCommand.Models
                 _recentCommandIndex = 0;
             }
 
-            return RecentCommands[_recentCommandIndex];
+            return RecentInputs[_recentCommandIndex];
         }
         #endregion
 
-        #region Private Methods
-        private void StartProcess()
+        #region Private EventListener Methods
+        private void OnOutputDataReceived(object sender, DataReceivedEventArgs e)
         {
-            Process = new Process();
-
-            Process.StartInfo = new ProcessStartInfo()
+            if (!string.IsNullOrEmpty(e.Data) && initialOutput > 3)
             {
-                FileName = "cmd.exe",
-                RedirectStandardInput = true,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                CreateNoWindow = true,
-                UseShellExecute = false,
-            };
+                _validInputCommand = true;
+
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    if (RecentOutputs.Count == 2) OutputViewModel.Instance.SelectedTab.Content.AppendText("\n");
+
+                    RecentOutputs.Add(e.Data);
+                    OutputViewModel.Instance.SelectedTab.Content.AppendText(e.Data + "\n");
+                    OutputViewModel.Instance.SelectedTab.Content.ScrollToEnd();
+                });
+            }
+            else initialOutput++;
         }
-        private string GetCurrentDirectory()
+        private void OnErrorDataReceived(object sender, DataReceivedEventArgs e)
         {
-            Process.Start();
-            Process.StandardInput.WriteLine($"echo %cd%");
-            Process.StandardInput.Flush();
-            Process.StandardInput.Close();
-            Process.WaitForExit();
+            if (!string.IsNullOrEmpty(e.Data))
+            {
+                _validInputCommand = false;
 
-            string readOutput = Process.StandardOutput.ReadToEnd();
-            string[] outputLines = readOutput.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-
-            return outputLines.Last();
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    OutputViewModel.Instance.SelectedTab.Content.AppendText(e.Data + "\n");
+                    OutputViewModel.Instance.SelectedTab.Content.ScrollToEnd();
+                });
+            }
         }
         #endregion
     }

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -6,22 +7,44 @@ using MiCommand.ViewModels;
 
 namespace MiCommand.Models
 {
-    public class Tab
+    public class Tab : INotifyPropertyChanged
     {
+        private static bool firstTab = true;
+
         #region Properties
         public int TabIndex { get; set; }
-        public string Header { get; set; }
+
+        private string _header;
+        public string Header 
+        { 
+            get {  return _header; }
+            set
+            {
+                if (value !=  _header)
+                {
+                    _header = value;
+                    OnPropertyChanged(nameof(Header));
+                }
+            }
+        }
         public TextBox Content { get; set; }
         public Command Command { get; set; }
         #endregion
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public Tab()
         {
-            Command = new Command();
-
             SetTabIndex();
             SetHeader();
             SetContent();
+
+            Command = new Command();
+        }
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         #region Private Methods
@@ -38,12 +61,26 @@ namespace MiCommand.Models
         }
         private void SetHeader()
         {
-            Header = $"Tab {TabIndex}";
+            if (firstTab)
+            {
+                Header = $"Tab {TabIndex}";
+                firstTab = false;
+            }
+            else
+            {
+                if (MainViewModel.Instance.EnglishChecked)
+                {
+                    Header = $"Tab {TabIndex}";
+                }
+                else
+                {
+                    Header = $"Flik {TabIndex}";
+                }
+            }
         }
         private void SetContent()
         {
             Content = GetTextBox();
-            Content.AppendText(Command.GetStartOutput());
         }
         private TextBox GetTextBox()
         {

@@ -65,6 +65,7 @@
     <Compile Include="Commands\BaseCommand.cs" />
     <Compile Include="Commands\ClearCommand.cs" />
     <Compile Include="Commands\EnterCommand.cs" />
+    <Compile Include="Commands\LanguageCommand.cs" />
     <Compile Include="Commands\RecentCommand.cs" />
     <Compile Include="Commands\RemoveTabCommand.cs" />
     <Compile Include="Models\Command.cs" />

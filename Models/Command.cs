@@ -94,6 +94,8 @@ namespace MiCommand.Models
         }
         public string GetPreviousCommand()
         {
+            if (RecentInputs.Count == 0) return null;
+
             if (_recentCommandIndex > 0)
             {
                 _recentCommandIndex--;
@@ -107,6 +109,8 @@ namespace MiCommand.Models
         }
         public string GetNextCommand()
         {
+            if (RecentInputs.Count == 0) return null;
+
             if (_recentCommandIndex < RecentInputs.Count - 1)
             {
                 _recentCommandIndex++;

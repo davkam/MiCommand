@@ -1,0 +1,44 @@
+﻿<Window x:Class="MiCommand.Views.MainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MiCommand.Views"
+        mc:Ignorable="d"
+        Title="MiCommand" Height="450" Width="800" 
+        Background="#2b2d42" Foreground="#edf2f4" 
+        FontFamily="Calibri" FontSize="14">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="5"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="7*"/>
+            <RowDefinition Height="*" MaxHeight="50"/>
+            <RowDefinition Height="5"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Column="1" Grid.Row="1">
+            <local:OutputView/>
+        </Grid>
+        
+        <Grid Grid.Column="1" Grid.Row="2">
+            <local:InputView/>
+        </Grid>
+        
+        <Grid Grid.Column="2" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <local:CommonView Grid.Row="1"/>
+            <local:RecentView Grid.Row="2"/>
+        </Grid>
+    </Grid>
+</Window>

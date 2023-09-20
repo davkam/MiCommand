@@ -1,0 +1,70 @@
+﻿<UserControl x:Class="MiCommand.Views.OutputView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MiCommand.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="600">
+    <UserControl.Resources>
+        <Style x:Key="tabItemStyle" TargetType="TabItem">
+            <Setter Property="Foreground" Value="#edf2f4"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Border x:Name="tabBorder" Background="#8d99ae" CornerRadius="2" Margin="0,0,2,2">
+                            <ContentPresenter ContentSource="Header" Margin="5,0,5,0"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="tabBorder" Property="Background" Value="#edf2f4"/>
+                                <Setter Property="Foreground" Value="#2b2d42"/>
+                                <Setter Property="FontWeight" Value="SemiBold"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="tabButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#8d99ae"/>
+            <Setter Property="Foreground" Value="#edf2f4"/>
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="Width" Value="20"/>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <TabControl ItemsSource="{Binding TabItems}" SelectedItem="{Binding SelectedTab, Mode=TwoWay}" ItemContainerStyle="{StaticResource tabItemStyle}" TabStripPlacement="Top">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Header}"/>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <ContentControl Content="{Binding Content}"/>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+            <TabControl.Template>
+                <ControlTemplate TargetType="TabControl">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="2,0,0,0">
+                            <Button Content="+" Command="{Binding AddTabCommand}" Style="{StaticResource tabButtonStyle}" Margin="0,-2,2,0" ToolTip="Add Tab"/>
+                            <Button Content="-" Command="{Binding RemoveTabCommand}" Style="{StaticResource tabButtonStyle}" Margin="0,-2,2,0" ToolTip="Remove Tab"/>
+                            <TabPanel IsItemsHost="True"/>
+                        </StackPanel>
+
+                        <Border Style="{StaticResource borderStyle}" Grid.Row="1">
+                            <ContentPresenter ContentSource="SelectedContent"/>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </TabControl.Template>
+        </TabControl>
+    </Grid>
+</UserControl>

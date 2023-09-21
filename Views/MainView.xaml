@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MiCommand.Views"
         mc:Ignorable="d"
-        Title="MiCommand" Height="450" Width="800"
+        Title="MiCommand" Height="720" Width="1280" MinHeight="720" MinWidth="1280"
         Background="#2b2d42" Foreground="#edf2f4" 
-        FontFamily="Calibri" FontSize="14">
+        FontFamily="Calibri" FontSize="{Binding TextSize}">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="5"/>
@@ -42,10 +42,20 @@
         </Grid>
 
         <Grid Grid.Column="2" Grid.Row="2">
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
-                <TextBlock Text="{Binding LanguageText}" TextAlignment="Right" Width="75" Margin="5"/>
-                <RadioButton Content="ENG" Command="{Binding LanguageCommand}" IsChecked="{Binding EnglishChecked}" Foreground="#edf2f4" VerticalContentAlignment="Bottom" Margin="5,5,0,5"/>
-                <RadioButton Content="SWE" Command="{Binding LanguageCommand}" IsChecked="{Binding SwedishChecked}" Foreground="#edf2f4" VerticalContentAlignment="Bottom" Margin="5,5,0,5"/>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Bottom">
+                <Button Content="A+" Command="{Binding IncreaseTextSizeCommand}" ToolTip="{Binding IncreaseTextSizeTooltip}" VerticalAlignment="Center" Background="#8d99ae" Foreground="#edf2f4" Width="25" Height="25" Margin="2,2,0,0"/>
+                <Button Content="A-" Command="{Binding DecreaseTextSizeCommand}" ToolTip="{Binding DecreaseTextSizeTooltip}" VerticalAlignment="Center" Background="#8d99ae" Foreground="#edf2f4" Width="25" Height="25" Margin="2,2,0,0"/>
+            </StackPanel>
+            
+            <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Bottom">
+                <TextBlock Text="{Binding LanguageText}" TextAlignment="Left" VerticalAlignment="Bottom" Margin="2,0,2,2"/>
+                <RadioButton Content="ENG" Command="{Binding LanguageCommand}" IsChecked="{Binding EnglishChecked}" Foreground="#edf2f4" VerticalAlignment="Center" VerticalContentAlignment="Center" Margin="4,0,0,2"/>
+                <RadioButton Content="SWE" Command="{Binding LanguageCommand}" IsChecked="{Binding SwedishChecked}" Foreground="#edf2f4" VerticalAlignment="Center" VerticalContentAlignment="Center" Margin="4,0,0,2"/>
             </StackPanel>
         </Grid>
     </Grid>

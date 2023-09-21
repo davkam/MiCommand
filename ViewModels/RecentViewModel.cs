@@ -57,7 +57,6 @@ namespace MiCommand.ViewModels
         }
         public ObservableCollection<string> FirstRecentCommands { get; private set; }
         public ObservableCollection<string> SecondRecentCommands { get; private set; }
-
         #endregion
 
         public ICommand RecentCommand { get; private set; }

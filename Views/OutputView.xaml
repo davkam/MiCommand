@@ -9,11 +9,12 @@
     <UserControl.Resources>
         <Style x:Key="tabItemStyle" TargetType="TabItem">
             <Setter Property="Foreground" Value="#edf2f4"/>
+            <Setter Property="Height" Value="25"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="TabItem">
-                        <Border x:Name="tabBorder" Background="#8d99ae" CornerRadius="2" Margin="0,0,2,2">
-                            <ContentPresenter ContentSource="Header" Margin="5,0,5,0"/>
+                        <Border x:Name="tabBorder" Background="#8d99ae" CornerRadius="2" Margin="0,0,2,0">
+                            <ContentPresenter ContentSource="Header" VerticalAlignment="Center" Margin="4,0,4,0"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsSelected" Value="True">
@@ -27,10 +28,12 @@
             </Setter>
         </Style>
         <Style x:Key="tabButtonStyle" TargetType="Button">
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="Background" Value="#8d99ae"/>
             <Setter Property="Foreground" Value="#edf2f4"/>
-            <Setter Property="Height" Value="20"/>
-            <Setter Property="Width" Value="20"/>
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Width" Value="25"/>
         </Style>
     </UserControl.Resources>
     <Grid>
@@ -49,7 +52,7 @@
                 <ControlTemplate TargetType="TabControl">
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="25"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 

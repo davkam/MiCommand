@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MiCommand.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="200" d:DesignWidth="200">
+             d:DesignHeight="250" d:DesignWidth="250">
     <Grid>
         <Border Style="{DynamicResource borderStyle}">
             <Grid Margin="5">
@@ -15,6 +15,7 @@
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
@@ -22,8 +23,16 @@
                     <TextBlock Text="{Binding CommonCommandsText}" HorizontalAlignment="Center"/>
                 </Border>
 
-                <ItemsControl ItemsSource="{Binding FirstRecentCommands}" HorizontalAlignment="Left" Grid.Column="0" Grid.Row="2"/>
-                <ItemsControl ItemsSource="{Binding SecondRecentCommands}" Grid.Column="1" Grid.Row="2"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Margin="0,5">
+                    <Button Content="{Binding BasicButtonText}" Command="{Binding BasicButtonCommand}" Style="{DynamicResource commandsButtonStyle}" Margin="2,0" Padding="8,0" ToolTip="{Binding BasicButtonTooltip}"/>
+                    <Button Content="{Binding NetButtonText}" Command="{Binding NetButtonCommand}" Style="{DynamicResource commandsButtonStyle}" Margin="2,0" Padding="8,0" ToolTip="{Binding NetButtonTooltip}"/>
+                    <Button Content="{Binding FileButtonText}" Command="{Binding FileButtonCommand}" Style="{DynamicResource commandsButtonStyle}" Margin="2,0" Padding="8,0" ToolTip="{Binding FileButtonTooltip}"/>
+                    <Button Content="{Binding MediaButtonText}" Command="{Binding MediaButtonCommand}" Style="{DynamicResource commandsButtonStyle}" Margin="2,0" Padding="8,0" ToolTip="{Binding MediaButtonTooltip}"/>
+                    <Button Content="{Binding MiscButtonText}" Command="{Binding MiscButtonCommand}" Style="{DynamicResource commandsButtonStyle}" Margin="2,0" Padding="8,0" ToolTip="{Binding MiscButtonTooltip}"/>
+                </StackPanel>
+
+                <!--<ItemsControl ItemsSource="{Binding FirstRecentCommands}" HorizontalAlignment="Left" Grid.Column="0" Grid.Row="2"/>
+                <ItemsControl ItemsSource="{Binding SecondRecentCommands}" Grid.Column="1" Grid.Row="2"/>-->
             </Grid>
         </Border>
     </Grid>

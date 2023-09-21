@@ -81,11 +81,10 @@ namespace MiCommand.ViewModels
 
             TabItems = new ObservableCollection<Tab>();
 
-            AddTabTooltip = "Add tab";
-            RemoveTabTooltip = "Remove tab";
-
             AddTabCommand = new AddTabCommand();
             RemoveTabCommand = new RemoveTabCommand();
+
+            SetEnglishLanguage();
 
             AddTab();
         }

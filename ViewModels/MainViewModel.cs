@@ -37,22 +37,29 @@ namespace MiCommand.ViewModels
             }
         }
 
-        private string _languageText;
-        public string LanguageText
+        private int _textSize;
+        public int TextSize
         {
-            get { return _languageText; }
+            get { return _textSize; }
             set
             {
-                if (value != _languageText)
+                if (value != _textSize)
                 {
-                    _languageText = value;
-                    OnPropertyChanged(nameof(LanguageText));
+                    _textSize = value;
+                    OnPropertyChanged(nameof(TextSize));
                 }
             }
         }
+        public string LanguageText { get; set; }
+        public string IncreaseTextSizeTooltip { get; set; }
+        public string DecreaseTextSizeTooltip { get; set; }
         #endregion
 
+        #region Commands
         public ICommand LanguageCommand { get; private set; }
+        public ICommand IncreaseTextSizeCommand { get; private set; }
+        public ICommand DecreaseTextSizeCommand { get; private set; }
+        #endregion
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -63,25 +70,44 @@ namespace MiCommand.ViewModels
             EnglishChecked = true;
             SwedishChecked = false;
 
-            LanguageText = "LANGUAGE:";
+            TextSize = 14;
 
             LanguageCommand = new LanguageCommand();
+            IncreaseTextSizeCommand = new IncreaseTextSizeCommand();
+            DecreaseTextSizeCommand = new DecreaseTextSizeCommand();
+
+            SetEnglishLanguage();
         }
 
         #region Public Methods
         public void SetEnglishLanguage()
         {
             LanguageText = "LANGUAGE:";
+            IncreaseTextSizeTooltip = "Increase text size";
+            DecreaseTextSizeTooltip = "Decrease text size";
+
+            InvokePropertyChanged();
         }
         public void SetSwedishLanguage()
         {
             LanguageText = "SPRÅK:";
+            IncreaseTextSizeTooltip = "Öka textstorlek";
+            DecreaseTextSizeTooltip = "Minska textstorlek";
+
+            InvokePropertyChanged();
         }
         #endregion
 
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void InvokePropertyChanged()
+        {
+            OnPropertyChanged(nameof(LanguageText));
+            OnPropertyChanged(nameof(IncreaseTextSizeTooltip));
+            OnPropertyChanged(nameof(DecreaseTextSizeTooltip));
         }
     }
 }

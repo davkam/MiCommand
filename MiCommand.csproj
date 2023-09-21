@@ -64,7 +64,14 @@
     <Compile Include="Commands\AddTabCommand.cs" />
     <Compile Include="Commands\BaseCommand.cs" />
     <Compile Include="Commands\ClearCommand.cs" />
+    <Compile Include="Commands\CommonViewCommands\BasicButtonCommand.cs" />
+    <Compile Include="Commands\CommonViewCommands\FileButtonCommand.cs" />
+    <Compile Include="Commands\CommonViewCommands\MediaButtonCommand.cs" />
+    <Compile Include="Commands\CommonViewCommands\MiscButtonCommand.cs" />
+    <Compile Include="Commands\CommonViewCommands\NetButtonCommand.cs" />
+    <Compile Include="Commands\DecreaseTextSizeCommand.cs" />
     <Compile Include="Commands\EnterCommand.cs" />
+    <Compile Include="Commands\IncreaseTextSizeCommand.cs" />
     <Compile Include="Commands\LanguageCommand.cs" />
     <Compile Include="Commands\RecentCommand.cs" />
     <Compile Include="Commands\RemoveTabCommand.cs" />
@@ -133,6 +140,8 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Designs\MiCommandFigmaDesign.fig" />
+    <None Include="Designs\MiCommandDesign.pdf" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -144,5 +153,6 @@
   <ItemGroup>
     <Resource Include="MiCommandIcon.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

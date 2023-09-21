@@ -10,6 +10,20 @@ namespace MiCommand.ViewModels
         public static InputViewModel Instance { get; private set; }
 
         #region Properties
+        private int _textSize;
+        public int TextSize 
+        { 
+            get {  return _textSize; }
+            set
+            {
+                if (value != _textSize)
+                {
+                    _textSize = value;
+                    OnPropertyChanged(nameof(TextSize));
+                }
+            }
+        }
+
         private string _enterButton;
         public string EnterButton
         {
@@ -23,6 +37,7 @@ namespace MiCommand.ViewModels
                 }
             }
         }
+
         private string _clearButton;
         public string ClearButton
         {
@@ -36,6 +51,7 @@ namespace MiCommand.ViewModels
                 }
             }
         }
+
         private string _inputText;
         public string InputText
         {
@@ -63,11 +79,12 @@ namespace MiCommand.ViewModels
         {
             Instance = this;
 
-            EnterButton = "ENTER";
-            ClearButton = "CLEAR";
+            TextSize = 16;
 
             EnterCommand = new EnterCommand();
             ClearCommand = new ClearCommand();
+
+            SetEnglishLanguage();
         }
 
         #region Public Methods

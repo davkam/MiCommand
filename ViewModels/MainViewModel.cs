@@ -1,4 +1,5 @@
 ﻿using MiCommand.Commands;
+using System;
 using System.ComponentModel;
 using System.Windows.Input;
 
@@ -9,6 +10,20 @@ namespace MiCommand.ViewModels
         public static MainViewModel Instance { get; private set; }
 
         #region Properties
+        private int _minWidth;
+        public int MinWidth
+        {
+            get { return _minWidth; }
+            set
+            {
+                if (value != _minWidth)
+                {
+                    _minWidth = value;
+                    OnPropertyChanged(nameof(MinWidth));
+                }
+            }
+        }
+
         private bool _englishChecked;
         public bool EnglishChecked 
         { 
@@ -67,6 +82,8 @@ namespace MiCommand.ViewModels
         {
             Instance = this;
 
+            MinWidth = 640;
+
             EnglishChecked = true;
             SwedishChecked = false;
 
@@ -80,6 +97,17 @@ namespace MiCommand.ViewModels
         }
 
         #region Public Methods
+        //public void AdjustMinWidth(int minWidth)
+        //{
+        //    if (minWidth > MinWidth)
+        //    {
+        //        MinWidth = minWidth;
+        //    }
+        //    else
+        //    {
+        //        MinWidth = 640;
+        //    }
+        //}
         public void SetEnglishLanguage()
         {
             LanguageText = "LANGUAGE:";

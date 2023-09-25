@@ -31,8 +31,8 @@
                     <Button Content="{Binding MiscButtonText}" Command="{Binding MiscButtonCommand}" Style="{DynamicResource commandsButtonStyle}" Margin="2,0" Padding="8,0" ToolTip="{Binding MiscButtonTooltip}"/>
                 </StackPanel>
 
-                <!--<ItemsControl ItemsSource="{Binding FirstRecentCommands}" HorizontalAlignment="Left" Grid.Column="0" Grid.Row="2"/>
-                <ItemsControl ItemsSource="{Binding SecondRecentCommands}" Grid.Column="1" Grid.Row="2"/>-->
+                <ItemsControl ItemsSource="{Binding FirstCommonCommands}" HorizontalAlignment="Left" Grid.Column="0" Grid.Row="2"/>
+                <ItemsControl ItemsSource="{Binding SecondCommonCommands}" Grid.Column="1" Grid.Row="2"/>
             </Grid>
         </Border>
     </Grid>

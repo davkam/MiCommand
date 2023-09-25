@@ -12,8 +12,7 @@ namespace MiCommand.Views
 
             DataContext = new InputViewModel();
 
-            InputViewModel viewModel = (InputViewModel)DataContext;
-            viewModel.InputWindow = inputTextBox;
+            InputViewModel.Instance.InputWindow = inputTextBox;
         }
 
         private void OnPreviewKeyDown(object sender, KeyEventArgs e)

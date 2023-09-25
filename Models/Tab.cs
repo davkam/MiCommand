@@ -68,13 +68,17 @@ namespace MiCommand.Models
             }
             else
             {
-                if (MainViewModel.Instance.EnglishChecked)
+                if (MainViewModel.Instance.EnglishChecked && OutputViewModel.Instance.LargeTabs)
                 {
                     Header = $"Tab {TabIndex}";
                 }
-                else
+                else if (MainViewModel.Instance.SwedishChecked && OutputViewModel.Instance.LargeTabs)
                 {
                     Header = $"Flik {TabIndex}";
+                }
+                else
+                {
+                    Header = TabIndex.ToString();
                 }
             }
         }
@@ -92,6 +96,7 @@ namespace MiCommand.Models
                 Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#edf2f4")),
                 BorderThickness = new Thickness(0),
                 Margin = new Thickness(10),
+                TextWrapping = TextWrapping.Wrap
             };
 
             return newTextBox;

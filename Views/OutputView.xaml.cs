@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 using MiCommand.ViewModels;
 
 namespace MiCommand.Views
@@ -10,6 +11,13 @@ namespace MiCommand.Views
             InitializeComponent();
 
             DataContext = new OutputViewModel();
+
+            OutputViewModel.Instance.TabControl = tabControl;
+        }
+
+        private void OnTabControlSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            OutputViewModel.Instance.CheckAvailableTabSpace();
         }
     }
 }

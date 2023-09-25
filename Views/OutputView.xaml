@@ -14,7 +14,7 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="TabItem">
                         <Border x:Name="tabBorder" Background="#8d99ae" CornerRadius="2" Margin="0,0,2,0">
-                            <ContentPresenter ContentSource="Header" VerticalAlignment="Center" Margin="4,0,4,0"/>
+                            <ContentPresenter x:Name="tabPresenter" ContentSource="Header" VerticalAlignment="Center" Margin="4,0,4,0"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsSelected" Value="True">
@@ -37,7 +37,7 @@
         </Style>
     </UserControl.Resources>
     <Grid>
-        <TabControl ItemsSource="{Binding TabItems}" SelectedItem="{Binding SelectedTab, Mode=TwoWay}" ItemContainerStyle="{StaticResource tabItemStyle}" TabStripPlacement="Top">
+        <TabControl x:Name="tabControl" ItemsSource="{Binding TabItems}" SelectedItem="{Binding SelectedTab, Mode=TwoWay}" ItemContainerStyle="{StaticResource tabItemStyle}" SizeChanged="OnTabControlSizeChanged" TabStripPlacement="Top">
             <TabControl.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Header}"/>

@@ -5,20 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MiCommand.Views"
         mc:Ignorable="d"
-        Title="MiCommand" Height="720" Width="1280" MinHeight="720" MinWidth="1280"
+        Title="MiCommand" Height="720" Width="1280" MinHeight="360" MinWidth="{Binding MinWidth}"
         Background="#2b2d42" Foreground="#edf2f4" 
         FontFamily="Calibri" FontSize="{Binding TextSize}">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="5"/>
-            <ColumnDefinition Width="3*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="3*" MinWidth="300"/>
+            <ColumnDefinition Width="*" MinWidth="300"/>
             <ColumnDefinition Width="5"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="5"/>
             <RowDefinition Height="7*"/>
-            <RowDefinition Height="*" MaxHeight="50"/>
+            <RowDefinition Height="*" MaxHeight="50" MinHeight="50"/>
             <RowDefinition Height="5"/>
         </Grid.RowDefinitions>
 

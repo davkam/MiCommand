@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using MiCommand.ViewModels;
 
@@ -10,17 +11,27 @@ namespace MiCommand.Models
     {
         private static int initialOutput = 0;
 
-        private bool _validInputCommand;
-        private int _recentCommandIndex;
+        #region Private Fields
+        private ManualResetEvent outputDataReceivedEvent = new ManualResetEvent(false);
+        private ManualResetEvent errorDataReceivedEvent = new ManualResetEvent(false);
 
+        private bool _validInput;
+        private int _recentCommandIndex;
+        #endregion
+
+        #region Properties
         public Process CommandProcess { get; private set; }
+        public Tab CommandTab { get; private set; }
         public List<string> RecentInputs { get; private set; }
         public List<string> RecentOutputs { get; private set; }
+        #endregion
 
-        public Command()
+        public Command(Tab tab)
         {
-            _validInputCommand = false;
+            _validInput = false;
             _recentCommandIndex = 0;
+
+            CommandTab = tab;
 
             RecentInputs = new List<string>();
             RecentOutputs = new List<string>();
@@ -81,14 +92,20 @@ namespace MiCommand.Models
 
             OutputViewModel.Instance.SelectedTab.Content.AppendText("\n");
 
-            Thread.Sleep(100);
-            if (_validInputCommand)
+
+            outputDataReceivedEvent.WaitOne();
+            outputDataReceivedEvent.Reset();
+
+            errorDataReceivedEvent.WaitOne(100);
+            errorDataReceivedEvent.Reset();
+
+            if (_validInput)
             {
                 if (inputCommand.Trim() != "")
                 {
                     RecentViewModel.Instance.AddRecentCommand(inputCommand.Trim());
 
-                    _validInputCommand = false;
+                    _validInput = false;
                 }
             }
         }
@@ -129,31 +146,35 @@ namespace MiCommand.Models
         {
             if (!string.IsNullOrEmpty(e.Data) && initialOutput > 3)
             {
-                _validInputCommand = true;
+                _validInput = true;
 
                 Application.Current.Dispatcher.Invoke(() =>
                 {
                     if (RecentOutputs.Count == 2) OutputViewModel.Instance.SelectedTab.Content.AppendText("\n");
 
                     RecentOutputs.Add(e.Data);
-                    OutputViewModel.Instance.SelectedTab.Content.AppendText(e.Data + "\n");
-                    OutputViewModel.Instance.SelectedTab.Content.ScrollToEnd();
+                    CommandTab.Content.AppendText(e.Data + "\n");
+                    CommandTab.Content.ScrollToEnd();
                 });
             }
             else initialOutput++;
+
+            outputDataReceivedEvent.Set();
         }
         private void OnErrorDataReceived(object sender, DataReceivedEventArgs e)
         {
             if (!string.IsNullOrEmpty(e.Data))
             {
-                _validInputCommand = false;
+                _validInput = false;
 
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    OutputViewModel.Instance.SelectedTab.Content.AppendText(e.Data + "\n");
-                    OutputViewModel.Instance.SelectedTab.Content.ScrollToEnd();
+                    CommandTab.Content.AppendText(e.Data + "\n");
+                    CommandTab.Content.ScrollToEnd();
                 });
             }
+
+            errorDataReceivedEvent.Set();
         }
         #endregion
     }

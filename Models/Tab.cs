@@ -39,7 +39,7 @@ namespace MiCommand.Models
             SetHeader();
             SetContent();
 
-            Command = new Command();
+            Command = new Command(this);
         }
 
         protected virtual void OnPropertyChanged(string propertyName)
